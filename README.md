@@ -1,59 +1,171 @@
 # Deck Snapshot
 
-Back up Decky plugins and their supported settings, CSS Loader customization, and custom Steam artwork before a SteamOS reset or re-image.
+**Back up your customized Steam Deck and bring it back after reinstalling SteamOS.**
+
+Deck Snapshot saves the parts of your Steam Deck setup that are annoying to rebuild by hand:
+
+- installed Decky plugins
+- supported plugin settings and data
+- CSS Loader themes, profiles, and customization
+- custom Steam artwork, including covers, heroes, logos, and icons
+
+Backups are created and validated locally first.  
+Google Drive backup is optional.
 
 ## Download
 
 **[Download the latest Deck Snapshot installer](https://github.com/Fizzywood/deck-snapshot-releases/releases/latest/download/deck_snapshot_installer.desktop)**
 
-[Open the latest release page](https://github.com/Fizzywood/deck-snapshot-releases/releases/latest) · [View Source Code](https://github.com/Fizzywood/deck-snapshot-source)
+[Latest release](https://github.com/Fizzywood/deck-snapshot-releases/releases/latest) · [View source](https://github.com/Fizzywood/deck-snapshot-source)
 
-On your Steam Deck in Desktop Mode:
+## Install
 
-1. Download `deck_snapshot_installer.desktop`.
-2. If Plasma asks, open **Properties → Permissions** and enable **Is executable**.
-3. Open the installer and wait for the verified result.
-4. Launch **Deck Snapshot** from the application menu.
+On your Steam Deck:
 
-The installer is version-bound, checks the downloaded archive against its embedded SHA-256 identity, and installs only for the current user. Deck Snapshot does not update itself in the background; install a newer release the same way when one is available. Existing backups and settings are kept.
+1. Switch to **Desktop Mode**.
+2. Download `deck_snapshot_installer.desktop`.
+3. If Plasma asks, open **Properties → Permissions** and enable **Is executable**.
+4. Open the installer.
+5. Launch **Deck Snapshot** from the application menu.
 
-## How it works
+The installer verifies the downloaded release before installing it for the current user.
 
-- **Create Backup** always creates and validates a local backup first.
-- Optional Google Drive upload stores a client-side protected copy in `My Drive/Deck Snapshot/Snapshots/`.
-- **Snapshots** lets you inspect local and available cloud backups.
-- **Restore** always creates a preview first. A real restore requires a separately confirmed exact plan and a verified recovery backup before any production change.
+Deck Snapshot does not update itself in the background. To update, install a newer release the same way. Existing backups and settings are kept.
 
-Keep the recovery file created during Google Drive setup somewhere separate from the cloud snapshots. Losing it can make protected cloud backups unrecoverable.
+## Create a backup
 
-Deck Snapshot is focused on Decky customization, CSS Loader state, and custom Steam artwork. It is not a system image and does not back up games, save games, complete Steam libraries, personal documents, or general Linux settings.
+Open Deck Snapshot and select **Create Backup**.
 
-### Create a backup
+Deck Snapshot:
 
-1. Open Deck Snapshot and select **Create Backup**.
-2. Keep the progress window open while the local backup is created and checked.
-3. Confirm that the result says **Saved**. If Google Drive is connected and automatic upload is enabled, also confirm that it says **Stored**.
+1. creates the backup locally
+2. validates it
+3. optionally uploads a protected copy to Google Drive
 
-### Fresh SteamOS recovery
+If the cloud upload fails, the validated local backup remains available.
 
-1. After the fresh SteamOS installation, switch to Desktop Mode and install Deck Snapshot.
-2. Connect the same Google account and select the separate recovery file created during the original Google Drive setup.
-3. Open **Snapshots** and choose the protected cloud backup.
-4. Review the generated **Restore Plan** carefully.
-5. Run the restore only after confirming that the plan contains exactly the expected paths and changes.
+## Restore after reinstalling SteamOS
 
-Google Drive is currently the supported cloud provider. Protected snapshots are stored in `My Drive/Deck Snapshot/Snapshots/`.
+For a normal Google Drive recovery:
 
-## Privacy and security
+1. Install **Decky Loader**.
+2. Install **Deck Snapshot**.
+3. Connect the **same Google account** you used for your backups.
+4. Open **Snapshots**.
+5. Choose the backup you want to restore.
+6. Review the restore plan.
+7. Confirm the restore.
 
-Deck Snapshot is local-first and has no project-operated backend and no telemetry or analytics. Google Drive is optional, and login happens directly through Google. New connections request exactly `drive.file`, which limits the app to files it creates or opens for the user. OAuth state is stored privately on the Steam Deck, snapshots are protected before upload, and recovery material is never uploaded beside them.
+That's it.
 
-Release downloads, checksums, and strict manifests are published here. Inspectable source snapshots for each public release are published separately at **[Fizzywood/deck-snapshot-source](https://github.com/Fizzywood/deck-snapshot-source)**. The private development repository and its history remain private.
+Since v0.1.5, you do **not** need to keep or manually select a separate recovery file for the normal recovery flow.
 
-Please report security concerns privately as described in [SECURITY.md](SECURITY.md). Never post credentials, recovery material, snapshot contents, or private paths in a public issue.
+Deck Snapshot automatically retrieves the recovery information associated with your Google account.
 
-## AI-assisted development disclosure
+> Deck Snapshot does not install Decky Loader itself.
 
-Deck Snapshot was substantially designed and implemented with OpenAI Codex under human product ownership, a development approach sometimes called vibe coding. Releases are still subject to automated tests, focused security review, checksum verification, and real Steam Deck validation. AI assistance and testing do not guarantee that the software is error-free; keep independent copies of important data and review every restore plan.
+## What gets restored?
 
-Deck Snapshot is an independent hobby project and is not affiliated with or endorsed by Valve, Steam, Decky Loader, CSS Loader, Google, SteamGridDB, or rclone. It reads and writes local configuration during backup and approved restore operations. Zero risk cannot be guaranteed; use it at your own risk.
+Deck Snapshot can restore supported customization such as:
+
+- Decky plugins
+- supported plugin settings and data
+- CSS Loader customization
+- custom Steam artwork
+
+Plugins are restored using the current supported plugin source rather than blindly restoring old plugin binaries.
+
+Some plugins may store data in unusual locations or change their settings format between versions. In those cases, Deck Snapshot may preserve or skip incompatible data instead of forcing it into the new installation.
+
+## What Deck Snapshot does not back up
+
+Deck Snapshot is **not a full SteamOS image**.
+
+It does not generally back up:
+
+- installed games
+- normal game saves
+- your complete Steam library
+- shader caches or Proton prefixes
+- personal documents
+- the complete Linux / SteamOS system
+
+The focus is your **Decky setup and Steam Deck customization**.
+
+## Google Drive
+
+Google Drive support is optional.
+
+Cloud snapshots are stored in:
+
+`My Drive/Deck Snapshot/Snapshots/`
+
+Snapshots are encrypted on your Steam Deck before they are uploaded.
+
+Deck Snapshot requests two limited Google Drive permissions:
+
+- `drive.file` — access to the Drive files used by Deck Snapshot
+- `drive.appdata` — access to Deck Snapshot's private recovery data
+
+The recovery information is stored separately in Google's private app-data area so that a fresh Deck Snapshot installation can recover your encrypted backups after you connect the same Google account.
+
+This means a copied or accidentally shared backup file remains encrypted.
+
+It does **not** provide zero-knowledge protection against someone who has completely taken over the same Google account, because that account can potentially reach both the encrypted backups and their recovery information.
+
+Manual recovery-key import and export remain available under Advanced as an optional fallback.
+
+## Restore safety
+
+Deck Snapshot does not immediately write a selected backup back to your Steam Deck.
+
+Before a real restore it:
+
+1. validates the snapshot
+2. creates an exact restore plan
+3. shows what will change
+4. requires explicit confirmation
+5. creates a recovery snapshot before production changes
+
+If something does not look safe or compatible, Deck Snapshot is designed to stop rather than guess.
+
+## Privacy
+
+Deck Snapshot is local-first.
+
+There is:
+
+- no Deck Snapshot account
+- no project-operated cloud backend
+- no telemetry
+- no analytics
+
+Google login happens directly through Google.
+
+## Source code
+
+Clean source snapshots matching every public release are available at:
+
+**[Fizzywood/deck-snapshot-source](https://github.com/Fizzywood/deck-snapshot-source)**
+
+The development repository and its history remain private.
+
+Release binaries, installers, checksums, and manifests are published in this repository.
+
+## AI-assisted development
+
+Deck Snapshot was substantially designed and implemented with OpenAI Codex under human product ownership, an approach sometimes called vibe coding.
+
+Releases are still subject to automated testing, focused security review, checksum verification, and validation on a real Steam Deck.
+
+AI assistance and testing do not guarantee error-free software.
+
+## Disclaimer
+
+Deck Snapshot is an independent hobby project and is not affiliated with or endorsed by Valve, Steam, Decky Loader, CSS Loader, Google, SteamGridDB, or rclone.
+
+Backup and restore software necessarily reads and writes configuration data. No software can guarantee zero risk.
+
+Keep independent copies of anything important and review the restore plan before confirming it.
+
+For security issues, see [SECURITY.md](SECURITY.md). Do not post credentials, recovery material, snapshot contents, or private paths in a public issue.
