@@ -14,9 +14,9 @@ Google Drive backup is optional.
 
 ## Download
 
-**[Download the latest Deck Snapshot installer](https://github.com/Fizzywood/deck-snapshot-releases/releases/latest/download/deck_snapshot_installer.desktop)**
+**[Download the latest Deck Snapshot installer](https://github.com/TAndrson/deck-snapshot-releases/releases/latest/download/deck_snapshot_installer.desktop)**
 
-[Latest release](https://github.com/Fizzywood/deck-snapshot-releases/releases/latest) · [View source](https://github.com/Fizzywood/deck-snapshot-source)
+[Latest release](https://github.com/TAndrson/deck-snapshot-releases/releases/latest) · [View source](https://github.com/TAndrson/deck-snapshot-source)
 
 ## Install
 
@@ -146,7 +146,7 @@ Google login happens directly through Google.
 
 Clean source snapshots matching every public release are available at:
 
-**[Fizzywood/deck-snapshot-source](https://github.com/Fizzywood/deck-snapshot-source)**
+**[TAndrson/deck-snapshot-source](https://github.com/TAndrson/deck-snapshot-source)**
 
 The development repository and its history remain private.
 
